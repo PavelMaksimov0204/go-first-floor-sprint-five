@@ -5,7 +5,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
 )
 
 // Основные константы, необходимые для расчетов.
@@ -30,7 +29,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	// Преобразовать первый элемент слайса (количество шагов) в тип int.
 	steps, err := strconv.Atoi(strings.TrimSpace(parts[0]))
 	if err != nil {
-		return 0, "", 0, fmt.Errorf("invalid steps value: %v", err)
+		return 0, "", 0, fmt.Errorf("invalid steps value: %w", err)
 	}
 
 	activity := strings.TrimSpace(parts[1])
@@ -38,7 +37,12 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	// Преобразовать третий элемент слайса в time.Duration.
 	duration, err := time.ParseDuration(strings.TrimSpace(parts[2]))
 	if err != nil {
-		return 0, "", 0, fmt.Errorf("invalid duration format: %v", err)
+		return 0, "", 0, fmt.Errorf("invalid duration format: %w", err)
+	}
+
+	// Проверка длительности на меньше или равно 0.
+	if duration <= 0 {
+		return 0, "", 0, fmt.Errorf("invalid duration: %w", err)
 	}
 
 	return steps, activity, duration, nil

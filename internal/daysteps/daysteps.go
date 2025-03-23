@@ -25,13 +25,13 @@ func parsePackage(data string) (int, time.Duration, error) {
 	// Преобразовать первый элемент слайса (количество шагов) в тип int.
 	steps, err := strconv.Atoi(strings.TrimSpace(parts[0]))
 	if err != nil || steps <= 0 {
-		return 0, 0, fmt.Errorf("invalid steps value: %v", err)
+		return 0, 0, fmt.Errorf("invalid steps value: %w", err)
 	}
 
 	// Преобразовать второй элемент слайса в time.Duration.
 	duration, err := time.ParseDuration(strings.TrimSpace(parts[1]))
 	if err != nil {
-		return 0, 0, fmt.Errorf("invalid duration format: %v", err)
+		return 0, 0, fmt.Errorf("invalid duration format: %w", err)
 	}
 
 	return steps, duration, nil
